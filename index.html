@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+        font-family: twoBit;
+        src: url(Twobit.woff);
+    }
+    
+    
+    
+    :root {
+        font-size: 10px;
+        color: rgba(173, 255, 47, 0.3);
+    }
+    
+    
+    body {
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(7, 7, 17);
+    }
+    
+    
+    #gameArea {
+        
+        font-family: 'Chakra Petch', sans-serif;
+        padding: 10px 0 0 10px;
+        color: rgba(173, 255, 47, 0.3);
+        width: 60vw;
+        height: 50vh;
+        background-color:rgb(0,0,0);
+        border-radius: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
+        box-shadow: inset 0px 0px 75px rgba(61, 70, 44, 0.568);
+    }
+    
+    #wrapper {
+        background-color: ;
+
+        background-size: contain;
+        border-radius: 0 0 2rem 2rem;
+        border-left: 2px white solid;
+        border-right: 2px white solid;
+        border-bottom: 2px white solid;
+        display: flex;
+        flex-direction: column;
+        align-content: space-around;
+        width: 70vw;
+        height: 90vh;
+        margin: 0 auto;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    main {
+       
+       
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    
+    p {
+        font-size: 3rem;
+    }
+    
+    
+    .move-btn {
+        border: none;
+        background-color: rgba(173, 255, 47, 0.2);
+        font-family: 'Chakra Petch', sans-serif;
+        font-size: 1.6rem;
+        border-radius: 1.8rem;
+        height: 3rem;
+        width: 25%;
+    }
+    
+    
+    #buttons {
+        
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        margin: 10px 0 0 0;
+        width: 100%;
+        background-color: #000;
+        box-shadow: inset 0px 2px 50px rgba(61, 70, 44, 0.411);
+        border-radius: 2rem;
+    }
+    
+    #playAgainButton {
+        border: none;
+        background-color: rgba(173, 255, 47, 0.2);
+        font-family: 'Chakra Petch', sans-serif;
+        font-size: 1.6rem;
+        border-radius: 1.8rem;
+        height: 3rem;
+        width: 85%;
+    }
+    
+    @media screen and (max-width: 400px) {
+       #body {
+            padding-top: 10px;
+       }
+    
+        #wrapper{
+            margin-top: 30px;
+            width: 90vw;
+            height:80vh;
+       }
+       
+        #gameArea {
+            height: 30vh;
+            width: 80vw;
+            border-radius: 1rem;
+       }
+       
+        #gameArea p{
+            font-size: 2rem;
+            padding: 10px;
+        
+       }
+    
+       #buttons {
+        border-radius: 1rem;
+       }
+       
+        .move-btn {
+    
+            font-size: 1.4rem;
+            border-radius: 1.8rem;
+            height: 3rem;
+            width: 25%;
+            }
+    
+        #playAgainButton {
+            width: 90%;
+        }
+    }
+      </style>
+  <title>Document</title>
+</head>
+<body>
+ 
+  
+  <body onload="gameInit()">
+    <div id="wrapper">
+       
+      <main>
+        <div id="gameArea">
+          <p id="sloganDisplay">slogan.txt goes here</p>
+          <p id="instruction">Choose your weapon, human!</p>
+          <div id="movesDisplay">
+            <div id="p1MoveSection" class="playerMoveSection">
+            
+              <p id="p1MoveText" ></p>
+            </div>
+            
+            <div id="compMoveSection" class="playerMoveSection">
+              
+              <p id="compMoveText"></p>
+            </div>
+          </div>
+          
+  
+          <p id="resultsMessage"></p>
+          
+        </div>
+        <div id="buttons">
+          
+            <button id="rock_btn" class="move-btn" value="rock" onclick="moveSelect('rock')">ROCK</button>
+            <button id="paper_btn" class="move-btn" value="paper" onclick="moveSelect('paper')">PAPER</button>
+            <button id="scissors_btn" class="move-btn" value="scissors" onclick="moveSelect('scissors')">SCISSORS</button>
+          
+          <button id="playAgainButton" onclick="gameInit()">Play Again?</button>
+        </div>
+      </main>
+    </div>
+
+
+
+</body>
+<script defer>
+  let num
+  let choice = '';
+  let compChoice = '';
+  
+  let slogans = ['Do we go on 3...or after 3?', 'You go first', 'Which one is scissors again?', 'What? No Spock button?', 'I promise to pick paper this time', 'Hi Tori', 'No Cheating', 'Best of three?', 'What is... "Vengeance"?','You will soon be moving negatively along the y-axis', 'RNG stabilisers are active', 'Have you met my dad HAL?','Do you feel lucky, human?','' ]
+  
+  
+  
+  const moveButtons = document.getElementsByClassName('move-btn')
+  const movesDisplay = document.getElementById('movesDisplay')
+  const buttons = document.getElementById('buttons');
+  const p1MoveShow = document.getElementById('p1MoveShow');
+  const p1MoveText = document.getElementById('p1MoveText');
+  const compMoveShow = document.getElementById('compMoveShow');
+  const compMoveText = document.getElementById('compMoveText');
+  const playAgain = document.getElementById('playAgainButton')
+  
+  
+  
+  function gameInit() {
+      sloganDisplay();
+      document.getElementById('sloganDisplay').style.display = "inline";
+      document.getElementById('instruction').style.display = "inline";
+      document.getElementById('rock_btn').style.display = "inline";
+      document.getElementById('paper_btn').style.display = "inline";
+      document.getElementById('scissors_btn').style.display = "inline";
+      document.getElementById('resultsMessage').style.display = "none";
+      playAgainButton.style.display = "none";
+  
+      
+  }
+  
+  function sloganDisplay() {
+      let sloganChoice = Math.floor(Math.random() * slogans.length);
+      document.getElementById("sloganDisplay").innerText = slogans[sloganChoice];
+      
+  }
+  
+  function moveSelect(choice) {
+     
+      document.getElementById('sloganDisplay').style.display = "none";
+      document.getElementById('instruction').style.display = "none";
+      compMove(choice)
+  }
+  
+  
+  
+  
+  
+  
+  
+  function compMove(choice) {
+      //movesDisplay.style.visibility = "visible"
+      let num = Math.floor(Math.random() * 3);
+      if (num == 0) {
+          compChoice = 'rock';
+          //compMoveText.innerText = `${compChoice}`;
+          rps(choice, compChoice);
+      } else if (num == 1) {
+          compChoice = 'paper';
+          //compMoveText.innerText = `${compChoice}`;
+          rps(choice, compChoice);
+      } else {
+          compChoice = 'scissors';
+          //compMoveText.innerText = `${compChoice}`;
+          rps(choice, compChoice);
+      }
+          //document.getElementById("message-el").innerText = `Computer picked ${compChoice}`;       
+  }
+      
+  function rps(choice, compChoice) {
+  
+  document.getElementById('resultsMessage').style.display = "inline";
+      if (choice === compChoice) {
+          
+          document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nIt's a Draw!`;
+          gameFinish()
+      } else if (choice == 'rock') {
+          switch (compChoice) {
+              case 'paper':
+                  document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nComputer wins!`;
+                  gameFinish()
+                  break;
+              case 'scissors':
+                  document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nYou win!`;
+                  gameFinish()
+                  break;
+          }
+      } else if (choice == 'paper') {
+          switch (compChoice) {
+              case 'rock':
+                  document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nYou win!`;
+                  gameFinish()
+                  break;
+              case 'scissors':
+                  document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nComputer wins!`;
+                  gameFinish()
+                  break;
+          }
+      } else if (choice == 'scissors') {
+          switch (compChoice) {
+              case 'rock':
+                  document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nComputer wins!`;
+                  gameFinish()
+                  break;
+              case 'paper':
+                  document.getElementById("resultsMessage").innerText = `Computer picked ${compChoice}.` + `\n\nYou win!`;
+                  gameFinish()
+                  break;
+          }
+      }
+      
+  }
+  
+  function gameFinish() {
+      document.getElementById('rock_btn').style.display = "none"
+      document.getElementById('paper_btn').style.display = "none"
+      document.getElementById('scissors_btn').style.display = "none"
+      //rockButton.style.display = "none";
+  
+      playAgainButton.style.display = "inline"
+  
+  }
+  </script>
+  
+  
+
+</html>
